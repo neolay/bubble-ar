@@ -40,6 +40,7 @@ class BubbleBoxActor {
 class BubbleActor {
     setup() {
         this.step()
+        this.addEventListener("pointerDown", "toggle");
     }
 
     step() {
@@ -51,6 +52,10 @@ class BubbleActor {
         const nextPosition = [t[0], t[1] + 0.015, t[2]];
         this.translateTo(nextPosition);
         this.future(20).step();
+    }
+
+    toggle() {
+        this.publish("goTo", "goTo", this._translation);
     }
 }
 
@@ -67,6 +72,33 @@ class BubblePawn {
     }
 }
 
+class EmojiActor {
+    setup() {
+        this.subscribe("goTo", "goTo", this.goTo);
+        this.running = false;
+    }
+
+    goTo(position) {
+        this.translateTo(position);
+        if (this.running === false) {
+            this.running = true;
+            this.step();
+        }
+    }
+
+    step() {
+        if (this._translation[1] > 2) {
+            this.translateTo([0, 0, 0]);
+            this.running = false;
+            return;
+        }
+        const t = this._translation;
+        const nextPosition = [t[0], t[1] + 0.015, t[2]];
+        this.translateTo(nextPosition);
+        this.future(20).step();
+    }
+}
+
 export default {
     modules: [
         {
@@ -77,6 +109,10 @@ export default {
             name: "Bubble",
             actorBehaviors: [BubbleActor],
             pawnBehaviors: [BubblePawn],
+        },
+        {
+            name: "Emoji",
+            actorBehaviors: [EmojiActor],
         },
     ]
 }
