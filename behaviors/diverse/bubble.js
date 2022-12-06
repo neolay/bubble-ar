@@ -15,6 +15,38 @@ class BubbleBoxActor {
             parent: this,
             behaviorModules: ["Emoji"],
         });
+        this.step();
+    }
+
+    getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    step() {
+        const x = Math.sin(this.now()) * this.getRandomInt(4);
+        const z = Math.cos(this.now()) * this.getRandomInt(3);
+        this.createCard({
+            translation: [x, 0, z],
+            name: "bubble",
+            type: "object",
+            layers: ["pointer"],
+            parent: this,
+            behaviorModules: ["Bubble"],
+        });
+        this.future(2000).step();
+    }
+}
+
+class BubblePawn {
+    setup() {
+        const bubbleGeometry = new THREE.SphereGeometry(0.4, 32, 16);
+        const bubbleMaterial = new THREE.MeshPhysicalMaterial({
+            roughness: 0,
+            transmission: 0.95,
+            thickness: 0.2,
+        });
+        const bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
+        this.shape.add(bubble);
     }
 }
 
@@ -23,6 +55,10 @@ export default {
         {
             name: "BubbleBox",
             actorBehaviors: [BubbleBoxActor],
+        },
+        {
+            name: "Bubble",
+            pawnBehaviors: [BubblePawn],
         },
     ]
 }
