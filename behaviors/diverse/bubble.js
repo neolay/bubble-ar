@@ -69,12 +69,19 @@ class BubblePawn {
         });
         const bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
         this.shape.add(bubble);
+        this.addEventListener("pointerDown", "toggle");
+    }
+
+    toggle() {
+        const avatar = this.getMyAvatar();
+        this.publish("rotateTowards", "rotateTowards", avatar.rotation);
     }
 }
 
 class EmojiActor {
     setup() {
         this.subscribe("goTo", "goTo", this.goTo);
+        this.subscribe("rotateTowards", "rotateTowards", this.rotateTowards);
         this.running = false;
     }
 
@@ -84,6 +91,10 @@ class EmojiActor {
             this.running = true;
             this.step();
         }
+    }
+
+    rotateTowards(rotation) {
+        this.set({rotation: rotation});
     }
 
     step() {
