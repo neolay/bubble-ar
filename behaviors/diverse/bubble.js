@@ -26,7 +26,7 @@ class BubbleBoxActor {
         const x = Math.sin(this.now()) * this.getRandomInt(4);
         const z = Math.cos(this.now()) * this.getRandomInt(3);
         this.createCard({
-            translation: [x, 0, z],
+            translation: [x, -2, z],
             name: "bubble",
             type: "object",
             layers: ["pointer"],
@@ -34,6 +34,23 @@ class BubbleBoxActor {
             behaviorModules: ["Bubble"],
         });
         this.future(2000).step();
+    }
+}
+
+class BubbleActor {
+    setup() {
+        this.step()
+    }
+
+    step() {
+        if (this._translation[1] > 2) {
+            this.destroy();
+            return;
+        }
+        const t = this._translation;
+        const nextPosition = [t[0], t[1] + 0.015, t[2]];
+        this.translateTo(nextPosition);
+        this.future(20).step();
     }
 }
 
@@ -58,6 +75,7 @@ export default {
         },
         {
             name: "Bubble",
+            actorBehaviors: [BubbleActor],
             pawnBehaviors: [BubblePawn],
         },
     ]
