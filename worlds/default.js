@@ -5,17 +5,22 @@ export function init(Constants) {
 
     Constants.UserBehaviorDirectory = "behaviors/diverse";
     Constants.UserBehaviorModules = [
-        "lights.js", "bubble.js",
+        "lights.js", "bubble.js", "spriteSound.js", "ambientSound.js", "splashScreen.js"
     ];
 
     Constants.DefaultCards = [
         {
             card: {
-                name: "entrance",
+                name: "splash screen",
+                translation: [0, 0, -2],
+                layers: ["pointer"],
                 type: "object",
-                translation: [0, 0, 4],
-                spawn: "default",
-            }
+                behaviorModules: ["SplashScreen", "AmbientSound"],
+                sound: "./assets/sounds/tevo.mp3",
+                textureLocation: "./assets/images/splash.png",
+                loop: true,
+                splashScreen: true,
+            },
         },
         {
             card: {

@@ -6,7 +6,7 @@ class BubbleBoxActor {
             layers: ["pointer"],
             name: "smiling face with hearts",
             dataLocation: "3uM3aMVolEoiVLs3wV9bSK9XJDU5yDIZ0wQAVBQv3X4AHQEBBQZPWloTHBkQBlsABlsWBxoEABABWxwaWgBaMhEjFwwZPAY0HiQWNy0RRjINFAMMAiA-IiwsR1ocGlsWBxoEABABWxgcFgcaAxAHBhBaADMlBxdCMTkzM007ARQdEkMEPScXMBwgFhESHC0jD0MEPDsaEhpEITQtRVoRFAEUWgdFDQdNHBscJRo_LCwGQQ8RRC0bOUYgOxEgGC8eFkUtDxYYQ0IMPUUXDAI",
-            dataScale: [0.2, 0.2, 0.2],
+            dataScale: [0.1, 0.1, 0.1],
             fileName: "/smiling_face_with_hearts.glb",
             modelType: "glb",
             shadow: true,
@@ -23,15 +23,16 @@ class BubbleBoxActor {
     }
 
     step() {
-        const x = Math.sin(this.now()) * this.getRandomInt(4);
-        const z = Math.cos(this.now()) * this.getRandomInt(3);
+        const x = Math.sin(this.now()) * this.getRandomInt(2);
+        const z = Math.cos(this.now()) * this.getRandomInt(1);
         this.createCard({
-            translation: [x, -2, z],
+            translation: [x, -1, z],
             name: "bubble",
             type: "object",
             layers: ["pointer"],
             parent: this,
-            behaviorModules: ["Bubble"],
+            sound: "./assets/sounds/bubble.wav",
+            behaviorModules: ["Bubble", "SpriteSound"],
         });
         this.future(2000).step();
     }
@@ -61,11 +62,11 @@ class BubbleActor {
 
 class BubblePawn {
     setup() {
-        const bubbleGeometry = new THREE.SphereGeometry(0.4, 32, 16);
+        const bubbleGeometry = new THREE.SphereGeometry(0.2, 32, 16);
         const bubbleMaterial = new THREE.MeshPhysicalMaterial({
             roughness: 0,
             transmission: 0.95,
-            thickness: 0.2,
+            thickness: 0.05,
         });
         const bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
         this.shape.add(bubble);
