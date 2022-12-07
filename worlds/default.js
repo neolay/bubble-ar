@@ -30,7 +30,15 @@ export function init(Constants) {
                         textureLocation: "./assets/images/splash.png",
                         loop: true,
                         splashScreen: true,
-                    },
+                    }
+                },
+                {
+                    card: {
+                        name: "light",
+                        layers: ["light"],
+                        type: "lighting",
+                        behaviorModules: ["Light"],
+                    }
                 },
                 {
                     card: {
@@ -70,7 +78,7 @@ export function init(Constants) {
                         behaviorModules: ["AmbientSound"],
                         sound: "./assets/sounds/tevo.mp3",
                         loop: true,
-                    },
+                    }
                 },
                 {
                     card: {
