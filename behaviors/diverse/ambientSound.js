@@ -5,7 +5,8 @@ class AmbientSoundPawn {
         this.volume = this.actor._cardData.volume || 0.25;
         this.splashScreen = this.actor._cardData.splashScreen || false;
         if (this.splashScreen) {
-            this.addEventListener("pointerDown", "start");
+            this.handler = () => this.start();
+            document.addEventListener("click", this.handler);
         } else {
             this.start();
         }
@@ -19,8 +20,9 @@ class AmbientSoundPawn {
             this.audio.currentTime = 0;
             this.audio.play();
         }
-        if (this.splashScreen) {
-            this.removeEventListener("pointerDown", "start");
+        if (this.handler) {
+            document.removeEventListener('click', this.handler);
+            delete this.handler;
         }
     }
 }
